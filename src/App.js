@@ -1,8 +1,7 @@
-// App.js
 import React from 'react';
-import ProductList from './ProductList';
-import Cart from './Cart';
-import { CartContextProvider } from './CartContext';
+import ProductList from './Product/ProductList'; // Update the path to './ProductList'
+import Cart from './Cart/Cart'; // Update the path to './Cart'
+import CartContextProvider from './Cart/CartContext'; // Update the path to './CartContext'
 
 const products = [
   { id: 1, name: 'Navy Blue Armanis Shoes', description: 'Gucci shoes 100% cotton', price: 1299, quantity: 2000, available: true },
