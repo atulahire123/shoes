@@ -1,23 +1,28 @@
-import React from 'react';
-import ProductList from './Product/ProductList'; // Update the path to './ProductList'
-import Cart from './Cart/Cart'; // Update the path to './Cart'
-import CartContextProvider from './Cart/CartContext'; // Update the path to './CartContext'
-
-const products = [
-  { id: 1, name: 'Navy Blue Armanis Shoes', description: 'Gucci shoes 100% cotton', price: 1299, quantity: 2000, available: true },
-  { id: 2, name: 'Gucci Shoes', description: '100% cotton', price: 3697, quantity: 16, available: true },
-];
+import React, { useState } from 'react';
+import { ProductProvider } from './ProductContext/ProductContext';
+import ProductForm from './ProductContext/ProductForm';
+import ProductDetails from './ProductContext/ProductDetails';
 
 const App = () => {
+  const [showDetails, setShowDetails] = useState(false);
+
+  const handleShowDetails = () => {
+    setShowDetails(true);
+  };
+
   return (
-    <CartContextProvider>
+    <ProductProvider>
       <div>
-        <h1>Product List</h1>
-        <ProductList products={products} ></ProductList>
-        <h1>Shopping Cart</h1>
-        <Cart ></Cart>
+        <h1>Add Product</h1>
+        <ProductForm onAddProduct={handleShowDetails} ></ProductForm>
+        {showDetails && (
+          <div>
+            <h1>Product Details</h1>
+            <ProductDetails ></ProductDetails>
+          </div>
+        )}
       </div>
-    </CartContextProvider>
+    </ProductProvider>
   );
 };
 
