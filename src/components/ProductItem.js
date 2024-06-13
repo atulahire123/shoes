@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { ProductContext } from '../contexts/ProductContext';
+import './ProductItem.css';
 
-const ProductItem = ({ product, handleBuy }) => {
+const ProductItem = ({ product }) => {
+  const { handleBuy } = useContext(ProductContext);
   const [selectedQuantities, setSelectedQuantities] = useState({ L: 0, M: 0, S: 0 });
 
-  const { shoeName, description, price, quantityL, quantityM, quantityS } = product;
-
   const handleChange = (size, value) => {
-    setSelectedQuantities(prevState => ({
+    setSelectedQuantities((prevState) => ({
       ...prevState,
       [size]: Number(value),
     }));
@@ -19,38 +20,40 @@ const ProductItem = ({ product, handleBuy }) => {
   return (
     <div className="product-item">
       <div className="product-details">
-        <p><strong>Shoe Name:</strong> {shoeName}</p>
-        <p><strong>Description:</strong> {description}</p>
-        <p><strong>Price:</strong> ${price}</p>
-        <p><strong>Stock (Large):</strong> {quantityL}</p>
-        <p><strong>Stock (Medium):</strong> {quantityM}</p>
-        <p><strong>Stock (Small):</strong> {quantityS}</p>
+        <p><strong>Shoe Name:</strong> {product.shoeName}</p>
+        <p><strong>Description:</strong> {product.description}</p>
+        <p><strong>Price:</strong> ${product.price}</p>
+        <p><strong>Stock (Large):</strong> {product.selectedQuantities?.L || 0}</p>
+        <p><strong>Stock (Medium):</strong> {product.selectedQuantities?.M || 0}</p>
+        <p><strong>Stock (Small):</strong> {product.selectedQuantities?.S || 0}</p>
       </div>
       <div className="product-actions">
         <h3>Select Quantity</h3>
-        <div className="input-group">
-          <label>Large:</label>
-          <input
-            type="number"
-            value={selectedQuantities.L}
-            onChange={(e) => handleChange('L', e.target.value)}
-          />
-        </div>
-        <div className="input-group">
-          <label>Medium:</label>
-          <input
-            type="number"
-            value={selectedQuantities.M}
-            onChange={(e) => handleChange('M', e.target.value)}
-          />
-        </div>
-        <div className="input-group">
-          <label>Small:</label>
-          <input
-            type="number"
-            value={selectedQuantities.S}
-            onChange={(e) => handleChange('S', e.target.value)}
-          />
+        <div className="input-group-container">
+          <div className="input-group">
+            <label>Large:</label>
+            <input
+              type="number"
+              value={selectedQuantities.L}
+              onChange={(e) => handleChange('L', e.target.value)}
+            />
+          </div>
+          <div className="input-group">
+            <label>Medium:</label>
+            <input
+              type="number"
+              value={selectedQuantities.M}
+              onChange={(e) => handleChange('M', e.target.value)}
+            />
+          </div>
+          <div className="input-group">
+            <label>Small:</label>
+            <input
+              type="number"
+              value={selectedQuantities.S}
+              onChange={(e) => handleChange('S', e.target.value)}
+            />
+          </div>
         </div>
         <button onClick={handleBuyClick}>Buy</button>
       </div>

@@ -1,30 +1,37 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ProductContext } from '../contexts/ProductContext';
+import './ProductModal.css';
 
-const ProductModal = ({ product, onClose }) => {
-  const { shoeName, description, price, selectedQuantities } = product;
+const ProductModal = () => {
+  const { cart, calculateTotalPrice, closeModal, isModalOpen } = useContext(ProductContext);
 
-  const totalAmount = price * (selectedQuantities.L + selectedQuantities.M + selectedQuantities.S);
+  if (!isModalOpen) {
+    return null;
+  }
 
   const handlePlaceOrder = () => {
-    console.log('Order placed for', product);
-    onClose();
+    console.log('Place Order logic goes here');
+    closeModal();
   };
 
   return (
-    <div className="modal">
+    <div className="modal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
       <div className="modal-content">
-        <h3>Order Summary</h3>
-        <p>Shoe Name: {shoeName}</p>
-        <p>Description: {description}</p>
-        <p>Price per Unit: ${price}</p>
-        <p>Quantity (Large): {selectedQuantities.L}</p>
-        <p>Quantity (Medium): {selectedQuantities.M}</p>
-        <p>Quantity (Small): {selectedQuantities.S}</p>
-        <p>Total Amount: ${totalAmount}</p>
-        
-        <div>
+        <h3 id="modal-title">Order Summary</h3>
+        {cart.map((item, index) => (
+          <div key={index}>
+            <p>Shoe Name: {item.shoeName}</p>
+            <p>Description: {item.description}</p>
+            <p>Price per Unit: ${item.price}</p>
+            <p>Quantity (Large): {item.selectedQuantities.L}</p>
+            <p>Quantity (Medium): {item.selectedQuantities.M}</p>
+            <p>Quantity (Small): {item.selectedQuantities.S}</p>
+          </div>
+        ))}
+        <p>Total Amount: ${calculateTotalPrice().toFixed(2)}</p>
+        <div className="modal-buttons">
           <button onClick={handlePlaceOrder}>Place Order</button>
-          <button onClick={onClose}>Cancel</button>
+          <button onClick={closeModal}>Cancel</button>
         </div>
       </div>
     </div>

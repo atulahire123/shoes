@@ -1,24 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ProductProvider } from './contexts/ProductContext';
-import ProductForm from './components/ProductForm';
 import ProductDetails from './components/ProductDetails';
+import ProductForm from './components/ProductForm';
+import ProductModal from './components/ProductModal';
 
-const App = () => {
-  const [showDetails, setShowDetails] = useState(false);
-
-  const handleShowDetails = () => {
-    setShowDetails(true);
-  };
-
+function App() {
   return (
     <ProductProvider>
-      <div>
-        <h1>Add Product</h1>
-        <ProductForm onAddProduct={handleShowDetails} />
-        {showDetails && <ProductDetails />}
+      <div className="App">
+        <ProductForm />
+        <ProductDetails />
+        <ProductModal />
       </div>
     </ProductProvider>
   );
-};
+}
 
 export default App;

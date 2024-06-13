@@ -1,54 +1,74 @@
-import React, { useState, useContext } from 'react';
-import ProductContext from '../contexts/ProductContext';
+import React, { useContext, useState } from 'react';
+import { ProductContext } from '../contexts/ProductContext';
+import './ProductForm.css';
 
-const ProductForm = ({ onAddProduct }) => {
-  const [shoeName, setShoeName] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState(0);
-  const [quantityL, setQuantityL] = useState(0);
-  const [quantityM, setQuantityM] = useState(0);
-  const [quantityS, setQuantityS] = useState(0);
+const ProductForm = () => {
   const { addProduct } = useContext(ProductContext);
+  const [product, setProduct] = useState({
+    shoeName: '',
+    description: '',
+    price: 0,
+    selectedQuantities: { L: 0, M: 0, S: 0 }
+  });
 
-  const handleAddProduct = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name.startsWith('selectedQuantities.')) {
+      const size = name.split('.')[1];
+      setProduct((prevProduct) => ({
+        ...prevProduct,
+        selectedQuantities: {
+          ...prevProduct.selectedQuantities,
+          [size]: Number(value),
+        },
+      }));
+    } else {
+      setProduct((prevProduct) => ({
+        ...prevProduct,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    addProduct({ shoeName, description, price, quantityL, quantityM, quantityS });
-    setShoeName('');
-    setDescription('');
-    setPrice(0);
-    setQuantityL(0);
-    setQuantityM(0);
-    setQuantityS(0);
-    onAddProduct();
+    addProduct(product);
+    setProduct({ shoeName: '', description: '', price: 0, selectedQuantities: { L: 0, M: 0, S: 0 } }); // Reset form
   };
 
   return (
-    <form className="form-container" onSubmit={handleAddProduct}>
-      <div className="input-group">
-        <label>Shoe Name:</label>
-        <input type="text" value={shoeName} onChange={(e) => setShoeName(e.target.value)} />
+    <form onSubmit={handleSubmit} className="product-form">
+      <h2>Add Product</h2>
+      <div className="form-row">
+        <div className="form-group">
+          <label htmlFor="shoeName">Shoe Name</label>
+          <input type="text" id="shoeName" name="shoeName" value={product.shoeName} onChange={handleChange} />
+        </div>
+        <div className="form-group">
+          <label htmlFor="description">Description</label>
+          <input type="text" id="description" name="description" value={product.description} onChange={handleChange} />
+        </div>
+        <div className="form-group">
+          <label htmlFor="price">Price</label>
+          <input type="number" id="price" name="price" value={product.price} onChange={handleChange} />
+        </div>
+        <div className="form-group quantity">
+          <label htmlFor="quantityL">Qty (L)</label>
+          <input type="number" id="quantityL" name="selectedQuantities.L" value={product.selectedQuantities.L} onChange={handleChange} />
+        </div>
+        <div className="form-group quantity">
+          <label htmlFor="quantityM">Qty (M)</label>
+          <input type="number" id="quantityM" name="selectedQuantities.M" value={product.selectedQuantities.M} onChange={handleChange} />
+        </div>
+        <div className="form-group quantity">
+          <label htmlFor="quantityS">Qty (S)</label>
+          <input type="number" id="quantityS" name="selectedQuantities.S" value={product.selectedQuantities.S} onChange={handleChange} />
+        </div>
       </div>
-      <div className="input-group">
-        <label>Description:</label>
-        <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
+      <div className="button-group">
+        <button type="submit">Add Product</button>
+  
       </div>
-      <div className="input-group">
-        <label>Price:</label>
-        <input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
-      </div>
-      <div className="input-group">
-        <label>Quantity (L):</label>
-        <input type="number" value={quantityL} onChange={(e) => setQuantityL(Number(e.target.value))} />
-      </div>
-      <div className="input-group">
-        <label>Quantity (M):</label>
-        <input type="number" value={quantityM} onChange={(e) => setQuantityM(Number(e.target.value))} />
-      </div>
-      <div className="input-group">
-        <label>Quantity (S):</label>
-        <input type="number" value={quantityS} onChange={(e) => setQuantityS(Number(e.target.value))} />
-      </div>
-      <button type="submit">Add Product</button>
     </form>
   );
 };

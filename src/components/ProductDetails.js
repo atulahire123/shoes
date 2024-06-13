@@ -1,28 +1,20 @@
-import React, { useState, useContext } from 'react';
-import ProductContext from '../contexts/ProductContext';
-import ProductModal from './ProductModal';
+import React, { useContext } from 'react';
+import { ProductContext } from '../contexts/ProductContext';
 import ProductItem from './ProductItem';
-
+import './ProductDetails.css';
 
 const ProductDetails = () => {
   const { products } = useContext(ProductContext);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-
-  const handleBuy = (product, selectedQuantities) => {
-    setSelectedProduct({ ...product, selectedQuantities });
-  };
 
   return (
     <div>
       <h2>Product Details</h2>
-      {products.map((product, index) => (
-        <ProductItem key={index} product={product} handleBuy={handleBuy} />
-      ))}
-      {selectedProduct && (
-        <ProductModal
-          product={selectedProduct}
-          onClose={() => setSelectedProduct(null)}
-        />
+      {products.length > 0 ? (
+        products.map((product, index) => (
+          <ProductItem key={index} product={product} />
+        ))
+      ) : (
+        <p>No products available</p>
       )}
     </div>
   );
