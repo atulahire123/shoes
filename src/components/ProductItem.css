@@ -1,0 +1,39 @@
+.product-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .product-details {
+    flex: 2;
+    padding-right: 20px;
+  }
+  
+  .product-actions {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .product-actions h3 {
+    margin-bottom: 10px;
+  }
+  
+  .input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .input-group label {
+    margin-right: 10px;
+  }
+  
+  .product-actions button {
+    align-self: flex-start;
+    margin-top: 10px;
+  }

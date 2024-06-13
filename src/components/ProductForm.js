@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import ProductContext from './ProductContext';
+import ProductContext from '../contexts/ProductContext';
 
 const ProductForm = ({ onAddProduct }) => {
   const [shoeName, setShoeName] = useState('');
@@ -13,14 +13,13 @@ const ProductForm = ({ onAddProduct }) => {
   const handleAddProduct = (e) => {
     e.preventDefault();
     addProduct({ shoeName, description, price, quantityL, quantityM, quantityS });
-    // Clear form after adding product
     setShoeName('');
     setDescription('');
     setPrice(0);
     setQuantityL(0);
     setQuantityM(0);
     setQuantityS(0);
-    onAddProduct(); // Show product details after adding product
+    onAddProduct();
   };
 
   return (
